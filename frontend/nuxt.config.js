@@ -1,8 +1,5 @@
 export default {
   mode: 'universal',
-  /*
-   ** Headers of the page
-   */
   head: {
     title: process.env.npm_package_name || '',
     meta: [
@@ -16,39 +13,62 @@ export default {
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
-  /*
-   ** Customize the progress-bar color
-   */
   loading: { color: '#fff' },
-  /*
-   ** Global CSS
-   */
   css: [],
-  /*
-   ** Plugins to load before mounting the App
-   */
   plugins: [],
-  /*
-   ** Nuxt.js dev-modules
-   */
-  buildModules: [
-    // Doc: https://github.com/nuxt-community/eslint-module
-    '@nuxtjs/eslint-module'
-  ],
-  /*
-   ** Nuxt.js modules
-   */
-  modules: [
-    // Doc: https://buefy.github.io/#/documentation
-    'nuxt-buefy'
-  ],
-  /*
-   ** Build configuration
-   */
+  buildModules: ['@nuxtjs/eslint-module'],
+  modules: ['nuxt-buefy', '@nuxtjs/axios', '@nuxtjs/auth', '@nuxtjs/toast'],
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: '/api/token/',
+            method: 'post',
+            propertyName: 'access',
+            altProperty: 'refresh'
+          },
+          logout: {},
+          user: false
+        }
+      }
+    },
+    redirect: {
+      login: '/login'
+    }
+  },
+  router: {
+    middleware: ['auth']
+  },
+  axios: {
+    baseURL: 'https://localhost:8000'
+  },
+  toast: {
+    position: 'top-center',
+    iconPack: 'fontawesome',
+    duration: 3000,
+    register: [
+      {
+        name: 'defaultSuccess',
+        message: (payload) =>
+          !payload.msg ? 'Operação bem sucedida' : payload.msg,
+        options: {
+          type: 'success',
+          icon: 'check'
+        }
+      },
+      {
+        name: 'defaultError',
+        message: (payload) =>
+          !payload.msg ? 'Oops.. Erro inesperado' : payload.msg,
+        options: {
+          type: 'error',
+          icon: 'times'
+        }
+      }
+    ]
+  },
   build: {
-    /*
-     ** You can extend webpack config here
-     */
     extend(config, ctx) {}
   }
 }
