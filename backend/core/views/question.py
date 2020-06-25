@@ -23,3 +23,4 @@ class QuestionViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(questions, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
+        
