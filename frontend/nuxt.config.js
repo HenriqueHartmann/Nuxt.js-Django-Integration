@@ -41,7 +41,7 @@ export default {
     middleware: ['auth']
   },
   axios: {
-    baseURL: 'https://localhost:8000'
+    baseURL: 'http://localhost:8000'
   },
   toast: {
     position: 'top-center',
